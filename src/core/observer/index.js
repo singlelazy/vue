@@ -159,6 +159,9 @@ export function defineReactive (
     configurable: true,
     get: function reactiveGetter () {
       const value = getter ? getter.call(obj) : val
+      // 依赖收集
+      // dep和它相关watcher之间建立关系
+      // 生成的子ob实例内部的dep也要和当前watcher建立关系
       if (Dep.target) {
         dep.depend()
         if (childOb) {

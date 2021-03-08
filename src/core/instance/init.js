@@ -49,12 +49,18 @@ export function initMixin (Vue: Class<Component>) {
     }
     // expose real self
     vm._self = vm
+    // $parent/$root/$childrend/$ref
     initLifecycle(vm)
+    // 自定义事件的监听处理
     initEvents(vm)
+    // $slots/$scopedSlots/_c/$createElement/$attr/$listeners
     initRender(vm)
     callHook(vm, 'beforeCreate')
+    // 注入祖辈传入的参数
     initInjections(vm) // resolve injections before data/props
+    // props/methods/data/computed/watch
     initState(vm)
+    // 给后代提供参数
     initProvide(vm) // resolve provide after data/props
     callHook(vm, 'created')
 
