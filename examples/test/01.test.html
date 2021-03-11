@@ -9,15 +9,15 @@
 </head>
 <body>
   <div id="app">
-    {{ demo.foo }}
+    {{ foo.bar }}
   </div>
 </body>
 <script>
-  new Vue({
+  window.vm=new Vue({
     el: '#app',
     data: {
-      demo: {
-        foo: 'foo'
+      foo: {
+        bar: 'bar'
       }
     }
   })

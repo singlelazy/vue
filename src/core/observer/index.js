@@ -162,6 +162,7 @@ export function defineReactive (
       // 依赖收集
       // dep和它相关watcher之间建立关系
       // 生成的子ob实例内部的dep也要和当前watcher建立关系
+      console.log(key)
       if (Dep.target) {
         dep.depend()
         if (childOb) {

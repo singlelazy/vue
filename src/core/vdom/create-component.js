@@ -33,6 +33,7 @@ import {
 } from 'weex/runtime/recycle-list/render-component-template'
 
 // inline hooks to be invoked on component VNodes during patch
+// 系统默认组件管理钩子
 const componentVNodeHooks = {
   init (vnode: VNodeWithData, hydrating: boolean): ?boolean {
     if (
@@ -41,9 +42,11 @@ const componentVNodeHooks = {
       vnode.data.keepAlive
     ) {
       // kept-alive components, treat as a patch
+      // 缓存情况下，组件实例不需要创建
       const mountedNode: any = vnode // work around flow
       componentVNodeHooks.prepatch(mountedNode, mountedNode)
     } else {
+      // 正常情况，组件需要实例化
       const child = vnode.componentInstance = createComponentInstanceForVnode(
         vnode,
         activeInstance
@@ -144,6 +147,7 @@ export function createComponent (
     }
   }
 
+  // 处理组件的数据
   data = data || {}
 
   // resolve constructor options in case global mixins are applied after
@@ -152,6 +156,7 @@ export function createComponent (
 
   // transform component v-model data into props & events
   if (isDef(data.model)) {
+    // 处理组件的model选项,给自定义组件实现v-model自定义绑定属性名和事件名
     transformModel(Ctor.options, data)
   }
 
@@ -183,6 +188,7 @@ export function createComponent (
   }
 
   // install component management hooks onto the placeholder node
+  // {..., hooks:{init, ...}}
   installComponentHooks(data)
 
   // return a placeholder vnode
@@ -223,6 +229,8 @@ export function createComponentInstanceForVnode (
   return new vnode.componentOptions.Ctor(options)
 }
 
+// 组件管理钩子，比如init，主要做组件实例化
+// 用户可以写特别逻辑代码在该钩子中
 function installComponentHooks (data: VNodeData) {
   const hooks = data.hook || (data.hook = {})
   for (let i = 0; i < hooksToMerge.length; i++) {

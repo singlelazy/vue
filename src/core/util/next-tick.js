@@ -82,6 +82,7 @@ if (typeof Promise !== 'undefined' && isNative(Promise)) {
 
 export function nextTick (cb?: Function, ctx?: Object) {
   let _resolve
+  // 有一个回调函数数组callback，将cb包装之后存入callbacks
   callbacks.push(() => {
     if (cb) {
       try {
@@ -95,6 +96,7 @@ export function nextTick (cb?: Function, ctx?: Object) {
   })
   if (!pending) {
     pending = true
+    // 启动异步任务
     timerFunc()
   }
   // $flow-disable-line

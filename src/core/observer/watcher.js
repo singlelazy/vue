@@ -103,6 +103,7 @@ export default class Watcher {
     let value
     const vm = this.vm
     try {
+      // 执行组件更新函数
       value = this.getter.call(vm, vm)
     } catch (e) {
       if (this.user) {
@@ -166,10 +167,13 @@ export default class Watcher {
   update () {
     /* istanbul ignore else */
     if (this.lazy) {
+      // computed
       this.dirty = true
     } else if (this.sync) {
+      // 标记当前watcher为立即更新，则不会走异常流程
       this.run()
     } else {
+      // wather排队
       queueWatcher(this)
     }
   }
@@ -180,6 +184,7 @@ export default class Watcher {
    */
   run () {
     if (this.active) {
+      // 组件更新
       const value = this.get()
       if (
         value !== this.value ||
